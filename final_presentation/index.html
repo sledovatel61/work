@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIT GROUP — Инженерно-строительная группа полного цикла</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Golos+Text:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0A0E14;
+  --bg-deep-2: #0E1B2E;
+  --surface: #16263C;
+  --surface-2: #1E3147;
+  --accent-orange: #FF6B00;
+  --accent-orange-glow: #FF6B0066;
+  --accent-cyan: #22D3EE;
+  --accent-gold: #D4AF37;
+  --text-primary: #E8EDF2;
+  --text-secondary: #8A97A8;
+  --text-muted: #5A6878;
+  --line: #1F3147;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'Manrope', 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============ HEADER & NAV ============ */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(10, 14, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+}
+.brand-logo .dot {
+  width: 10px; height: 10px;
+  background: var(--accent-orange);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--accent-orange);
+}
+.brand-logo .unit { color: var(--text-primary); }
+.brand-logo .group { color: var(--accent-orange); }
+.nav-info {
+  display: flex;
+  gap: 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+.nav-info span { display: flex; align-items: center; gap: 8px; }
+.nav-info .marker { color: var(--accent-cyan); }
+
+.export-bar {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 101;
+  display: flex;
+  gap: 12px;
+}
+.btn {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--accent-orange);
+  padding: 12px 20px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:hover {
+  background: var(--accent-orange);
+  color: var(--bg-deep);
+  box-shadow: 0 0 24px var(--accent-orange-glow);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--accent-cyan);
+}
+.btn-ghost:hover {
+  background: var(--accent-cyan);
+  color: var(--bg-deep);
+}
+
+/* ============ SLIDES CONTAINER ============ */
+.slides {
+  padding-top: 64px;
+}
+.slide {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+.slide-number {
+  position: absolute;
+  top: 24px; right: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+.slide-number .current { color: var(--accent-orange); font-size: 18px; font-weight: 600; }
+
+.slide-footer {
+  position: absolute;
+  bottom: 24px; left: 80px; right: 80px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+/* ============ SLIDE 1 — TITLE ============ */
+.slide-1 {
+  background: 
+    linear-gradient(135deg, rgba(10,14,20,0.85) 0%, rgba(14,27,46,0.7) 100%),
+    url('img/slide1_cover_bg.png');
+  background-size: cover;
+  background-position: center;
+  justify-content: flex-start;
+  padding-top: 110px;
+}
+.slide-1::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 70% 50%, transparent 0%, rgba(10,14,20,0.7) 70%);
+  pointer-events: none;
+}
+.s1-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+}
+.s1-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.s1-tag::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--accent-cyan);
+}
+.s1-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: 120px;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin-bottom: 4px;
+}
+.s1-logo .u { color: var(--text-primary); }
+.s1-logo .g { color: var(--accent-orange); text-shadow: 0 0 30px var(--accent-orange-glow); }
+.s1-sub {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--text-secondary);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 50px;
+}
+.s1-headline {
+  font-family: 'Golos Text', 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+.s1-headline .accent { color: var(--accent-orange); }
+.s1-headline .subtle { color: var(--text-secondary); font-weight: 400; font-size: 38px; display: block; margin-top: 12px; }
+.s1-description {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+.s1-description strong { color: var(--text-primary); font-weight: 600; }
+
+.s1-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.s1-metric {
+  padding: 24px 20px;
+  border-right: 1px solid var(--line);
+}
+.s1-metric:last-child { border-right: none; }
+.s1-metric .num {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  font-size: 44px;
+  color: var(--accent-orange);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.s1-metric .num .unit-small { font-size: 22px; color: var(--accent-cyan); margin-left: 4px; }
+.s1-metric .label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.s1-companies {
+  margin-top: 32px;
+  display: flex;
+  gap: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.s1-companies span { display: flex; align-items: center; gap: 8px; }
+.s1-companies span::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent-orange);
+  border-radius: 50%;
+}
+
+/* ============ SLIDE 2 — STRUCTURE ============ */
+.slide-2 {
+  background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-deep-2) 100%);
+}
+.s2-header { margin-bottom: 48px; }
+.s2-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.s2-title {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 800;
+  font-size: 52px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.s2-title .accent { color: var(--accent-orange); }
+.s2-sub {
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  max-width: 800px;
+}
+
+.s2-structure {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.s2-row {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  gap: 40px;
+  padding: 32px 40px;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+.s2-row:last-child { border-bottom: none; }
+.s2-row-header {
+  border-left: 3px solid;
+  padding-left: 16px;
+}
+.s2-row-1 .s2-row-header { border-color: var(--accent-orange); }
+.s2-row-2 .s2-row-header { border-color: var(--accent-cyan); }
+.s2-row-3 .s2-row-header { border-color: var(--accent-gold); }
+.s2-row-num {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+.s2-row-role {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+.s2-row-1 .s2-row-role { color: var(--accent-orange); }
+.s2-row-3 .s2-row-role { color: var(--accent-gold); }
+.s2-row-name {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+.s2-row-extra {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+.s2-row-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.s2-capability {
+  font-size: 14px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.4;
+}
+.s2-capability .icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.s2-row-1 .s2-capability .icon { border-color: var(--accent-orange); color: var(--accent-orange); }
+.s2-row-3 .s2-capability .icon { border-color: var(--accent-gold); color: var(--accent-gold); }
+.s2-row-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.s2-row-meta strong { color: var(--text-secondary); font-weight: 600; }
+
+.s2-flow {
+  margin-top: 32px;
+  padding: 20px 32px;
+  background: var(--bg-deep);
+  border: 1px solid var(--accent-orange);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.s2-flow-step {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.s2-flow-arrow {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  color: var(--accent-orange);
+  font-size: 24px;
+}
+
+/* ============ SLIDE 3 — COMPETENCIES ============ */
+.slide-3 {
+  background: var(--bg-deep);
+  position: relative;
+}
+.slide-3::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60%;
+  height: 100%;
+  background: url('img/infrastructure_isometric.png') center/cover no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+}
+.s3-header { margin-bottom: 32px; position: relative; z-index: 2; }
+.s3-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.s3-title {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 800;
+  font-size: 48px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.s3-title .accent { color: var(--accent-orange); }
+.s3-sub {
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+  max-width: 880px;
+}
+
+.s3-bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+  position: relative;
+  z-index: 2;
+}
+.s3-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 24px;
+  position: relative;
+  transition: all 0.3s;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+.s3-card:hover {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 24px rgba(255,107,0,0.2);
+}
+.s3-card.featured {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg-deep-2) 100%);
+  border-color: var(--accent-orange);
+}
+.s3-card-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  background: rgba(255,107,0,0.1);
+  border: 1.5px solid var(--accent-orange);
+  color: var(--accent-orange);
+}
+.s3-card-icon.cyan { background: rgba(34,211,238,0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.s3-card-icon.gold { background: rgba(212,175,55,0.1); border-color: var(--accent-gold); color: var(--accent-gold); }
+.s3-card-num {
+  position: absolute;
+  top: 24px; right: 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+.s3-card-title {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.s3-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  flex-grow: 1;
+}
+.s3-card-metric {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-orange);
+  letter-spacing: 0.05em;
+}
+.s3-card-metric.cyan { color: var(--accent-cyan); }
+.s3-card-metric.gold { color: var(--accent-gold); }
+
+.s3-strapline {
+  margin-top: 24px;
+  padding: 16px 24px;
+  background: var(--bg-deep-2);
+  border-left: 3px solid var(--accent-orange);
+  position: relative;
+  z-index: 2;
+  font-size: 15px;
+  color: var(--text-primary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.s3-strapline strong { color: var(--accent-orange); font-weight: 700; }
+
+/* ============ SLIDE 4 — PROJECTS ============ */
+.slide-4 {
+  background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-deep-2) 100%);
+}
+.s4-header { margin-bottom: 28px; }
+.s4-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.s4-title {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 800;
+  font-size: 48px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.s4-title .accent { color: var(--accent-orange); }
+.s4-sub {
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+  max-width: 800px;
+}
+
+.s4-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  height: 530px;
+}
+.s4-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.s4-card-hero {
+  grid-row: span 2;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg-deep-2) 100%);
+  border-color: var(--accent-orange);
+  position: relative;
+}
+.s4-card-hero::before {
+  content: '';
+  position: absolute;
+  top: -20px; right: -20px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+  opacity: 0.15;
+}
+.s4-card-type {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+}
+.s4-card-hero .s4-card-type { color: var(--accent-orange); }
+.s4-card-name {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.s4-card-hero .s4-card-name {
+  font-size: 28px;
+}
+.s4-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.s4-card-hero .s4-card-desc {
+  font-size: 14px;
+}
+.s4-card-metrics {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+.s4-card-metric {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+.s4-card-metric .val {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--accent-orange);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.s4-card-hero .s4-card-metric .val {
+  font-size: 38px;
+  color: var(--accent-orange);
+}
+.s4-card-metric .lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.s4-foot {
+  margin-top: 18px;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.s4-foot strong { color: var(--accent-orange); font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 14px; }
+.s4-foot-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.s4-foot-item::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent-orange);
+  border-radius: 50%;
+}
+
+/* ============ SLIDE 5 — CONTACTS ============ */
+.slide-5 {
+  background: 
+    linear-gradient(135deg, rgba(10,14,20,0.95) 0%, rgba(14,27,46,0.85) 100%),
+    url('img/contacts_bg.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.slide-5::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,14,20,0.6) 100%);
+  pointer-events: none;
+}
+.s5-content {
+  position: relative;
+  z-index: 2;
+}
+.s5-headline {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 800;
+  font-size: 64px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.s5-headline .accent { color: var(--accent-orange); }
+.s5-tagline {
+  font-size: 22px;
+  color: var(--text-secondary);
+  max-width: 720px;
+  margin-bottom: 56px;
+  line-height: 1.4;
+}
+.s5-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 32px;
+  background: var(--accent-orange);
+  color: var(--bg-deep);
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 56px;
+  box-shadow: 0 8px 32px var(--accent-orange-glow);
+}
+.s5-cta-arrow { font-size: 24px; }
+
+.s5-contacts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.s5-contact {
+  padding: 28px 24px;
+  border-right: 1px solid var(--line);
+}
+.s5-contact:last-child { border-right: none; }
+.s5-contact-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+}
+.s5-contact-1 .s5-contact-tag { color: var(--accent-orange); }
+.s5-contact-3 .s5-contact-tag { color: var(--accent-gold); }
+.s5-contact-name {
+  font-family: 'Golos Text', sans-serif;
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+.s5-contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.s5-contact-row strong { color: var(--text-primary); font-weight: 600; }
+.s5-contact-row .role { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+.s5-contact-row a { color: var(--accent-cyan); text-decoration: none; }
+.s5-contact-1 .s5-contact-row a { color: var(--accent-orange); }
+.s5-contact-3 .s5-contact-row a { color: var(--accent-gold); }
+.s5-contact-row a:hover { text-decoration: underline; }
+
+.s5-hashtags {
+  margin-top: 28px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.s5-hashtags span { color: var(--accent-cyan); }
+
+.s5-disclaimer {
+  position: absolute;
+  bottom: 60px; left: 80px; right: 80px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+/* ============ PRINT STYLES ============ */
+@media print {
+  body { background: white; }
+  .top-bar, .export-bar { display: none; }
+  .slide {
+    min-height: 100vh;
+    page-break-after: always;
+    padding: 40px;
+    background: var(--bg-deep) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1100px) {
+  .slide { padding: 40px; }
+  .s1-logo { font-size: 80px; }
+  .s1-headline { font-size: 36px; }
+  .s1-headline .subtle { font-size: 24px; }
+  .s2-title, .s3-title, .s4-title { font-size: 36px; }
+  .s3-bento { grid-template-columns: repeat(2, 1fr); }
+  .s4-grid { grid-template-columns: 1fr 1fr; height: auto; }
+  .s4-card-hero { grid-row: span 1; grid-column: span 2; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="top-bar">
+  <div class="brand-logo">
+    <span class="dot"></span>
+    <span class="unit">UNIT</span><span class="group">GROUP</span>
+  </div>
+  <div class="nav-info">
+    <span><span class="marker">●</span> ИНЖЕНЕРНО-СТРОИТЕЛЬНАЯ ГРУППА</span>
+    <span><span class="marker">●</span> МОСКВА · МО</span>
+    <span><span class="marker">●</span> 2026</span>
+  </div>
+</div>
+
+<!-- ============ EXPORT BUTTONS ============ -->
+<div class="export-bar">
+  <button class="btn btn-ghost" onclick="window.print()">📄 PDF</button>
+  <a class="btn" href="PRESENTATION_INFO.md" target="_blank">📋 ДЛЯ ОРКЕСТРАТОРА</a>
+</div>
+
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 — TITLE / МАСШТАБ                                  -->
+<!-- ============================================================ -->
+<section class="slide slide-1">
+  <div class="slide-number"><span class="current">01</span> / 05</div>
+
+  <div class="s1-content">
+    <div class="s1-tag">ИНЖЕНЕРНО-СТРОИТЕЛЬНАЯ ГРУППА ПОЛНОГО ЦИКЛА</div>
+
+    <div class="s1-logo">
+      <span class="u">UNIT</span><span class="g">GROUP</span>
+    </div>
+    <div class="s1-sub">Москва · Инжиниринг · Строительство · Мосты и тоннели</div>
+
+    <h1 class="s1-headline">
+      Полный цикл.<br>
+      <span class="accent">Одна ответственность.</span>
+      <span class="subtle">От фундамента до космоса.</span>
+    </h1>
+
+    <p class="s1-description">
+      <strong>Группа из трёх специализированных компаний</strong>, объединённых общим EPC-контуром. Проектируем, строим, монтируем инженерные системы и доводим объекты до финишной отделки — под одну юридическую и финансовую ответственность.
+    </p>
+
+    <div class="s1-metrics">
+      <div class="s1-metric">
+        <div class="num">3<span class="unit-small">юрлица</span></div>
+        <div class="label">единый EPC-контур</div>
+      </div>
+      <div class="s1-metric">
+        <div class="num">288<span class="unit-small">м</span></div>
+        <div class="label">НКЦ Роскосмос · флагман</div>
+      </div>
+      <div class="s1-metric">
+        <div class="num">20 000<span class="unit-small">м³</span></div>
+        <div class="label">монолит в водонасыщенных грунтах</div>
+      </div>
+      <div class="s1-metric">
+        <div class="num">24<span class="unit-small">/7</span></div>
+        <div class="label">любая геология и климат</div>
+      </div>
+    </div>
+
+    <div class="s1-companies">
+      <span>ООО «ЮНИТ ИНЖИНИРИНГ»</span>
+      <span>ООО «АММ-СТРОЙ»</span>
+      <span>ООО «МОСТЫ И ТОННЕЛИ»</span>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>UNIT GROUP · Москва · 2026</span>
+    <span>Единая ответственность EPC-уровня</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 — СТРУКТУРА ГРУППЫ                                -->
+<!-- ============================================================ -->
+<section class="slide slide-2">
+  <div class="slide-number"><span class="current">02</span> / 05</div>
+
+  <div class="s2-header">
+    <div class="s2-eyebrow">СТРУКТУРА ГРУППЫ</div>
+    <h2 class="s2-title">Единый контур.<br><span class="accent">Три уровня экспертизы.</span></h2>
+    <p class="s2-sub">Каждая компания закрывает свой сегмент. Один договор — и вся цепочка от инженерного проекта до финишной отделки под одной ответственностью.</p>
+  </div>
+
+  <div class="s2-structure">
+    <!-- ROW 1: ЮНИТ ИНЖИНИРИНГ -->
+    <div class="s2-row s2-row-1">
+      <div class="s2-row-header">
+        <div class="s2-row-num">01</div>
+        <div class="s2-row-role">EPC · УПРАВЛЕНИЕ</div>
+        <div class="s2-row-name">ЮНИТ<br>ИНЖИНИРИНГ</div>
+        <div class="s2-row-extra">Головная компания группы · с 2022</div>
+      </div>
+      <div class="s2-row-body">
+        <div class="s2-capability"><span class="icon">+</span><span>Проектирование, BIM, сметы, авторский надзор</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Генподряд, техзаказчик, управление строительством</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Комплекс работ на объекте «Национальный космический центр» (НКЦ) — башня 288 м, 47 этажей, 257 000 м², совместный проект Правительства Москвы и Роскосмоса</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Проектирование и строительство «Стрелковый клуб Румянцево»</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Капитальный ремонт автодорожного тоннеля «Новокутузовский ТТК»</span></div>
+      </div>
+      <div class="s2-row-meta">
+        <strong>Генеральный директор</strong><br>
+        Махадов Ильян Абдурагимович<br><br>
+        <strong>ИНН</strong> 9701308826<br>
+        <strong>ОГРН</strong> 1227700257905<br><br>
+        Москва, ул. Б. Почтовая, 26В, стр. 1<br>
+        +7 915 186-66-11<br>
+        ooo-unit@list.ru
+      </div>
+    </div>
+
+    <!-- ROW 2: АММ-СТРОЙ -->
+    <div class="s2-row s2-row-2">
+      <div class="s2-row-header">
+        <div class="s2-row-num">02</div>
+        <div class="s2-row-role">ОПЕРАЦИОННЫЙ КОНТУР</div>
+        <div class="s2-row-name">АММ<br>СТРОЙ</div>
+        <div class="s2-row-extra">Создана 04.05.2026 · команда и портфель AIVA</div>
+      </div>
+      <div class="s2-row-body">
+        <div class="s2-capability"><span class="icon">+</span><span>Демонтаж и алмазная резка ж/б любой сложности</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Черновые работы: стяжка, штукатурка, кладка</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Отделка под ключ: шпатлевка, покраска, керамогранит, паркет/ламинат, гипсокартон, лепнина</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Столярные работы: двери, МДФ-плинтусы, доборы</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Сантехника, электрика, ОВиК, кондиционирование — полный цикл</span></div>
+      </div>
+      <div class="s2-row-meta">
+        <strong>Генеральный директор</strong><br>
+        Михеев Михаил Вахитович<br><br>
+        <strong>ИНН</strong> 9729419389<br>
+        <strong>ОГРН</strong> 1267700156052<br><br>
+        Москва, ул. Архитектора Власова, 55<br>
+        mikheev.mikhail13@mail.ru
+      </div>
+    </div>
+
+    <!-- ROW 3: МОСТЫ И ТОННЕЛИ -->
+    <div class="s2-row s2-row-3">
+      <div class="s2-row-header">
+        <div class="s2-row-num">03</div>
+        <div class="s2-row-role">СПЕЦКОНТУР · 10+ ЛЕТ</div>
+        <div class="s2-row-name">МОСТЫ<br>И ТОННЕЛИ</div>
+        <div class="s2-row-extra">Собственный парк Casagrande · Hilti</div>
+      </div>
+      <div class="s2-row-body">
+        <div class="s2-capability"><span class="icon">+</span><span>Мосты, тоннели, метрополитен, ИССО — полный цикл</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Буровые работы: БНС, БСС, БКС, «стена в грунте» — Ø620–1200 мм, до 10 группы грунтов</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Монолитное строительство: армирование, опалубка, бетонирование, маркшейдерия</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Гидроизоляция полного цикла (наплавляемая 2-4 слоя, металлоизоляция, инъектирование)</span></div>
+        <div class="s2-capability"><span class="icon">+</span><span>Работа 24/7, любые климатические условия, высокая мобильность</span></div>
+      </div>
+      <div class="s2-row-meta">
+        <strong>Генеральный директор</strong><br>
+        Хидешели Леван Иванович<br><br>
+        <strong>ИНН</strong> 5001107429<br>
+        <strong>ОГРН</strong> 1165001050785<br><br>
+        МО, г. Люберцы,<br>
+        ул. Электрификации, 3, стр. 3<br>
+        +7 499 148-63-83 · info@ooomit.com<br>
+        ooomit.com
+      </div>
+    </div>
+  </div>
+
+  <div class="s2-flow">
+    <span class="s2-flow-step">ОДИН ТЕНДЕР</span>
+    <span class="s2-flow-arrow">→</span>
+    <span class="s2-flow-step">ОДИН ДОГОВОР</span>
+    <span class="s2-flow-arrow">→</span>
+    <span class="s2-flow-step">ОДНА ОТВЕТСТВЕННОСТЬ</span>
+  </div>
+
+  <div class="slide-footer">
+    <span>UNIT GROUP · Структура</span>
+    <span>3 юрлица · 1 EPC-контур</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 — КОМПЕТЕНЦИИ / ПОЛНЫЙ ЦИКЛ                     -->
+<!-- ============================================================ -->
+<section class="slide slide-3">
+  <div class="slide-number"><span class="current">03</span> / 05</div>
+
+  <div class="s3-header">
+    <div class="s3-eyebrow">ПОЛНЫЙ ЦИКЛ · ОТ КОТЛОВАНА ДО ФИНИША</div>
+    <h2 class="s3-title">Что закрываем.<br><span class="accent">Без стыков. Без субподрядчиков.</span></h2>
+    <p class="s3-sub">Шесть направлений, которые в обычной связке раздают 3-5 подрядчикам. У нас — одна команда, одна ответственность, одна смета.</p>
+  </div>
+
+  <div class="s3-bento">
+    <!-- 1 -->
+    <div class="s3-card featured">
+      <div class="s3-card-num">01 / 06</div>
+      <div class="s3-card-icon">▶</div>
+      <div class="s3-card-title">Проектирование<br>и EPC-управление</div>
+      <div class="s3-card-desc">Проектная и рабочая документация, BIM-моделирование, сметы, авторский надзор. Генподряд и техзаказчик. Флагманский кейс — комплекс работ на НКЦ.</div>
+      <div class="s3-card-metric">257 000 м² · НКЦ</div>
+    </div>
+    <!-- 2 -->
+    <div class="s3-card">
+      <div class="s3-card-num">02 / 06</div>
+      <div class="s3-card-icon cyan">◇</div>
+      <div class="s3-card-title">Монолит и подземные конструкции</div>
+      <div class="s3-card-desc">Армирование, монтаж опалубки, бетонирование, геодезия и маркшейдерия. Работаем в водонасыщенных грунтах, напорные горизонты.</div>
+      <div class="s3-card-metric cyan">20 000 м³ · ст. «Кленовый бульвар»</div>
+    </div>
+    <!-- 3 -->
+    <div class="s3-card">
+      <div class="s3-card-num">03 / 06</div>
+      <div class="s3-card-icon">▶</div>
+      <div class="s3-card-title">Мосты · тоннели · метро</div>
+      <div class="s3-card-desc">Станции метро «Говорово», «Кленовый бульвар», «Столбово», вестибюль «Академической» (Троицкая линия). Автодорожный тоннель Видное. ТТК Новокутузовский.</div>
+      <div class="s3-card-metric">4 станции метро · 2 тоннеля</div>
+    </div>
+    <!-- 4 -->
+    <div class="s3-card">
+      <div class="s3-card-num">04 / 06</div>
+      <div class="s3-card-icon gold">◆</div>
+      <div class="s3-card-title">Буровые работы и спецоснования</div>
+      <div class="s3-card-desc">БНС Ø1000–1200 мм, БСС, БКС, «стена в грунте». Собственные буровые машины Casagrande. Статические испытания свай до 1000 тн. Канатная резка Hilti.</div>
+      <div class="s3-card-metric gold">291 БКС · 1000 тн испытания</div>
+    </div>
+    <!-- 5 -->
+    <div class="s3-card">
+      <div class="s3-card-num">05 / 06</div>
+      <div class="s3-card-icon cyan">◇</div>
+      <div class="s3-card-title">Инженерные системы</div>
+      <div class="s3-card-desc">Кондиционирование, вентиляция, отопление, водоснабжение, водоотведение, газоснабжение, электрика полный цикл. Собственные бригады, никакой аренды.</div>
+      <div class="s3-card-metric cyan">7 направлений · 24/7</div>
+    </div>
+    <!-- 6 -->
+    <div class="s3-card">
+      <div class="s3-card-num">06 / 06</div>
+      <div class="s3-card-icon">▶</div>
+      <div class="s3-card-title">Отделка и финиш<br>«под ключ»</div>
+      <div class="s3-card-desc">Демонтаж + алмазная резка → стяжка, штукатурка, кладка → керамогранит, паркет, ламинат, гипсокартон, лепнина → двери, МДФ-плинтусы. Сантехника и свет — финал.</div>
+      <div class="s3-card-metric">AIVA → АММ-СТРОЙ</div>
+    </div>
+  </div>
+
+  <div class="s3-strapline">
+    От <strong>291 БКС</strong> в котловане до <strong>башни 288 м</strong> — один стандарт качества. Мобильность: развёртывание участка — <strong>от 3 дней</strong>.
+  </div>
+
+  <div class="slide-footer">
+    <span>UNIT GROUP · Компетенции</span>
+    <span>6 направлений · 1 ответственный</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4 — ПРОЕКТЫ-ДОКАЗАТЕЛЬСТВА                         -->
+<!-- ============================================================ -->
+<section class="slide slide-4">
+  <div class="slide-number"><span class="current">04</span> / 05</div>
+
+  <div class="s4-header">
+    <div class="s4-eyebrow">ПРОЕКТЫ-ДОКАЗАТЕЛЬСТВА</div>
+    <h2 class="s4-title">Там, где нас уже <span class="accent">проверили.</span></h2>
+    <p class="s4-sub">Не стоковые фотографии — реальные объекты Роскосмоса, Московского метрополитена, ЦАО и крупнейших девелоперов столицы.</p>
+  </div>
+
+  <div class="s4-grid">
+    <!-- HERO -->
+    <div class="s4-card s4-card-hero">
+      <div>
+        <div class="s4-card-type">◤ ФЛАГМАН · КОСМОС</div>
+        <div class="s4-card-name">Национальный космический центр</div>
+        <div class="s4-card-desc">Комплекс работ на объекте совместного проекта Правительства Москвы и госкорпорации «Роскосмос». Башня-«ракета» с тригранным силуэтом — главный архитектурный объект столицы. Открыт 13.09.2025.</div>
+      </div>
+      <div class="s4-card-metrics">
+        <div class="s4-card-metric"><span class="val">288</span><span class="lbl">метров / 47 эт.</span></div>
+        <div class="s4-card-metric"><span class="val">257к</span><span class="lbl">м² общая площадь</span></div>
+        <div class="s4-card-metric"><span class="val">20к</span><span class="lbl">рабочих мест</span></div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="s4-card">
+      <div>
+        <div class="s4-card-type">◤ МЕТРО · БКЛ</div>
+        <div class="s4-card-name">Станция «Кленовый бульвар»</div>
+        <div class="s4-card-desc">Сооружение основных конструкций в условиях водонасыщенных грунтов, река в 50 м. Рекордный котлован 644 м.</div>
+      </div>
+      <div class="s4-card-metrics">
+        <div class="s4-card-metric"><span class="val">20к</span><span class="lbl">м³ монолита</span></div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="s4-card">
+      <div>
+        <div class="s4-card-type">◤ МЕТРО · ТРОИЦКАЯ</div>
+        <div class="s4-card-name">Вестибюль №1 ст. «Академическая»</div>
+        <div class="s4-card-desc">Возведение основных и внутренних конструкций. Открытие участка «ЗИЛ — Новаторская» — 13.09.2025.</div>
+      </div>
+      <div class="s4-card-metrics">
+        <div class="s4-card-metric"><span class="val">17</span><span class="lbl">станций Троицкой линии</span></div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="s4-card">
+      <div>
+        <div class="s4-card-type">◤ ТРАНСПОРТ · ГЧП</div>
+        <div class="s4-card-name">Автодорожный тоннель в г. Видное</div>
+        <div class="s4-card-desc">Секция 7 в составе трассы «ЮЛА» — концессия стоимостью 86,7 млрд ₽.</div>
+      </div>
+      <div class="s4-card-metrics">
+        <div class="s4-card-metric"><span class="val">300</span><span class="lbl">м тоннель</span></div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="s4-card">
+      <div>
+        <div class="s4-card-type">◤ ДЕВЕЛОПМЕНТ · ТПУ</div>
+        <div class="s4-card-name">МФЖК «Мичуринский проспект»</div>
+        <div class="s4-card-desc">Свайное основание Башни А. Статические испытания нагрузкой 1000 тн. Архитектор — бюро SPEECH (Сергей Чобан).</div>
+      </div>
+      <div class="s4-card-metrics">
+        <div class="s4-card-metric"><span class="val">1000т</span><span class="lbl">испытания свай</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s4-foot">
+    <div class="s4-foot-item"><strong>12+</strong> знаковых объектов</div>
+    <div class="s4-foot-item"><strong>2</strong> линии метро</div>
+    <div class="s4-foot-item"><strong>3</strong> тоннеля</div>
+    <div class="s4-foot-item"><strong>1</strong> объект Роскосмоса</div>
+    <div class="s4-foot-item"><strong>10+</strong> лет непрерывной практики</div>
+  </div>
+
+  <div class="slide-footer">
+    <span>UNIT GROUP · Проекты</span>
+    <span>Москва · МО · 2018–2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5 — КОНТАКТЫ И CTA                                 -->
+<!-- ============================================================ -->
+<section class="slide slide-5">
+  <div class="slide-number"><span class="current">05</span> / 05</div>
+
+  <div class="s5-content">
+    <h2 class="s5-headline">
+      Снимите риски.<br>
+      <span class="accent">Дайте площадку.</span>
+    </h2>
+    <p class="s5-tagline">
+      Один тендер → один договор → одна юридическая и финансовая ответственность. Собственная техника, мобильность, выход на объект от 3 дней.
+    </p>
+
+    <div class="s5-cta">
+      <span>Готовы к диалогу</span>
+      <span class="s5-cta-arrow">→</span>
+    </div>
+
+    <div class="s5-contacts">
+      <!-- Contact 1: ЮНИТ ИНЖИНИРИНГ -->
+      <div class="s5-contact s5-contact-1">
+        <div class="s5-contact-tag">◤ EPC · ГОЛОВНАЯ</div>
+        <div class="s5-contact-name">ООО «ЮНИТ<br>ИНЖИНИРИНГ»</div>
+        <div class="s5-contact-row">
+          <span class="role">Генеральный директор</span>
+          <strong>Махадов Ильян Абдурагимович</strong>
+          <span>105082, Москва, ул. Большая Почтовая, д. 26В, стр. 1, пом. 1/3</span>
+          <a href="tel:+79151866611">+7 915 186-66-11</a>
+          <a href="tel:+79168394020">+7 916 839-40-20</a>
+          <a href="mailto:ooo-unit@list.ru">ooo-unit@list.ru</a>
+          <span>ИНН 9701308826 · ОГРН 1227700257905</span>
+        </div>
+      </div>
+
+      <!-- Contact 2: АММ-СТРОЙ -->
+      <div class="s5-contact s5-contact-2">
+        <div class="s5-contact-tag">◤ ОПЕРАЦИОННЫЙ КОНТУР</div>
+        <div class="s5-contact-name">ООО «АММ<br>СТРОЙ»</div>
+        <div class="s5-contact-row">
+          <span class="role">Генеральный директор</span>
+          <strong>Михеев Михаил Вахитович</strong>
+          <span>117393, Москва, ул. Архитектора Власова, д. 55</span>
+          <a href="mailto:mikheev.mikhail13@mail.ru">mikheev.mikhail13@mail.ru</a>
+          <span>Создана 04.05.2026</span>
+          <span>ИНН 9729419389 · ОГРН 1267700156052</span>
+        </div>
+      </div>
+
+      <!-- Contact 3: Мосты и тоннели -->
+      <div class="s5-contact s5-contact-3">
+        <div class="s5-contact-tag">◤ СПЕЦКОНТУР · 10+ ЛЕТ</div>
+        <div class="s5-contact-name">ООО «МОСТЫ<br>И ТОННЕЛИ»</div>
+        <div class="s5-contact-row">
+          <span class="role">Генеральный директор</span>
+          <strong>Хидешели Леван Иванович</strong>
+          <span>140014, МО, г. Люберцы, ул. Электрификации, д. 3, стр. 3, оф. 12</span>
+          <a href="tel:+74991486383">+7 499 148-63-83</a>
+          <a href="mailto:info@ooomit.com">info@ooomit.com</a>
+          <a href="https://ooomit.com" target="_blank">ooomit.com</a>
+          <span>ИНН 5001107429 · ОГРН 1165001050785</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="s5-hashtags">
+      <span>#ПолныйЦиклСтроительства</span>
+      <span>#МостыТоннелиМетро</span>
+      <span>#КосмическийМасштаб</span>
+      <span>#СобственныйПаркCasagrande</span>
+      <span>#МонолитВВоде</span>
+      <span>#ОдинДоговорВместоПяти</span>
+      <span>#МоскваиМО</span>
+    </div>
+  </div>
+
+  <div class="s5-disclaimer">
+    © UNIT GROUP, 2026 · Все права защищены. Информация о проектах НКЦ, Московского метрополитена и трассы «ЮЛА» приведена по открытым источникам.
+    Группа выполнила комплекс работ на указанных объектах; генпроектировщиком и генподрядчиком отдельных проектов могут выступать иные организации.
+    ООО «АММ-СТРОЙ» зарегистрировано 04.05.2026, операционная деятельность ведётся с использованием команды и портфеля AIVA СТРОЙ.
+  </div>
+</section>
+
+</div>
+
+<script>
+// Smooth slide-to-slide navigation with keyboard
+document.addEventListener('keydown', (e) => {
+  const slides = document.querySelectorAll('.slide');
+  const currentIdx = Array.from(slides).findIndex(s => {
+    const r = s.getBoundingClientRect();
+    return r.top >= -50 && r.top < window.innerHeight / 2;
+  });
+  if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    if (currentIdx < slides.length - 1) {
+      slides[currentIdx + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    e.preventDefault();
+    if (currentIdx > 0) {
+      slides[currentIdx - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+});
+
+// Intersection Observer for slide number tracking
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.slide').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
