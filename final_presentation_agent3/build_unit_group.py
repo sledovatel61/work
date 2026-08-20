@@ -256,7 +256,9 @@ def slide2():
     deco(d)
 
     header(d, "01 · СТРУКТУРА ГРУППЫ", [("Три компании. Один контур.", WHITE)])
-    text_block(d, (100, 258), "Каждая компания закрывает свой сегмент, заказчик получает один договор и одну ответственность за весь цикл — от проекта до отделки.",
+    tf = F("disp800", 104)
+    suby = 162 + sum(tf.getmetrics()) + 22          # ниже заголовка с запасом
+    text_block(d, (100, suby), "Каждая компания закрывает свой сегмент, заказчик получает один договор и одну ответственность за весь цикл — от проекта до отделки.",
                F("body500", 30), (196, 208, 222), maxw=1900, lh=42)
 
     cards = [
@@ -321,7 +323,9 @@ def slide3():
     deco(d)
 
     header(d, "02 · КОМПЕТЕНЦИИ", [("Полный цикл. Без стыков.", WHITE)])
-    text_block(d, (100, 258), "Шесть этапов, которые на рынке обычно делят между 3–5 подрядчиками. У нас их закрывает одна команда, одна смета и одна ответственность.",
+    tf = F("disp800", 104)
+    suby = 162 + sum(tf.getmetrics()) + 22
+    text_block(d, (100, suby), "Шесть этапов, которые на рынке обычно делят между 3–5 подрядчиками. У нас их закрывает одна команда, одна смета и одна ответственность.",
                F("body500", 30), (196, 208, 222), maxw=1900, lh=42)
 
     py = 400
@@ -470,7 +474,7 @@ def slide5():
              rows=[("Гендиректор", "Хидешели Леван Иванович"),
                    ("Телефон", "+7 499 148-63-83"),
                    ("Сайт / e-mail", "ooomit.com · info@ooomit.com"),
-                   ("Адрес", "140014, МО, Люберцы, ул. Электрификации, 3, стр. 3"),
+                   ("Адрес", "МО, Люберцы, ул. Электрификации, 3, стр. 3"),
                    ("ИНН / ОГРН", "5001107429 / 1165001050785")]),
     ]
     for i, c in enumerate(cards):
@@ -479,13 +483,13 @@ def slide5():
         overlay(im, box, CARD2, 240)
         rrect(d, box, r=24, outline=LINE + (255,), width=3)
         d.line([(x + 24, top), (x + 190, top)], fill=c["rolec"] + (240,), width=6)
-        chip(d, x + 28, top + 32, c["role"], F("mono600", 20), c["rolec"], border=c["rolec"] + (110,))
-        text_block(d, (x + 28, top + 92), c["name"], F("disp700", 34), WHITE, maxw=cw - 56, lh=44, max_lines=2)
-        y = top + 190
+        chip(d, x + 28, top + 32, c["role"], F("mono600", 21), c["rolec"], border=c["rolec"] + (110,))
+        text_block(d, (x + 28, top + 94), c["name"], F("disp700", 36), WHITE, maxw=cw - 56, lh=46, max_lines=2)
+        y = top + 170
         for k, v in c["rows"]:
-            d.text((x + 28, y), k.upper(), font=F("mono500", 18), fill=GREY2)
-            hgt, _ = text_block(d, (x + 28, y + 26), v, F("body600", 23), (215, 225, 236), maxw=cw - 56, lh=29, max_lines=2)
-            y += 26 + 29 * max(1, len(wrap(v, F("body600", 23), cw - 56))) + 8
+            d.text((x + 28, y), k.upper(), font=F("mono500", 20), fill=GREY2)
+            hgt, _ = text_block(d, (x + 28, y + 28), v, F("body600", 26), (218, 228, 238), maxw=cw - 56, lh=33, max_lines=2)
+            y += 28 + 33 * max(1, len(wrap(v, F("body600", 26), cw - 56))) + 6
 
     footer(d, "«Ваш надёжный партнёр в мире инженерии»  ·  UNIT GROUP, 2026", page="05 / 05")
     return im
@@ -517,7 +521,34 @@ def main():
     prs.core_properties.author = "UNIT GROUP"
     pptx = os.path.join(BASE, "UNIT_GROUP_Презентация.pptx")
     prs.save(pptx)
+    add_transitions(pptx)
     print("PPTX:", pptx, os.path.getsize(pptx) // 1024, "KB")
+
+
+def add_transitions(pptx_path):
+    """Переходы между слайдами: 1-й — fade, остальные — Morph (плавная
+    трансформация) с fade-фолбэком для старых PowerPoint. Инъекция XML —
+    единственный рабочий способ, т.к. у python-pptx нет API переходов."""
+    from pptx import Presentation
+    from lxml import etree
+    P  = "http://schemas.openxmlformats.org/presentationml/2006/main"
+    MC = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    P14  = "http://schemas.microsoft.com/office/powerpoint/2010/main"
+    P159 = "http://schemas.microsoft.com/office/powerpoint/2015/09/main"
+    fade = (f'<p:transition xmlns:p="{P}" spd="slow">'
+            f'<p:fade/></p:transition>')
+    morph = (f'<mc:AlternateContent xmlns:mc="{MC}">'
+             f'<mc:Choice xmlns:p159="{P159}" Requires="p159">'
+             f'<p:transition xmlns:p="{P}" xmlns:p14="{P14}" spd="slow" p14:dur="1300">'
+             f'<p159:morph option="byObject"/></p:transition></mc:Choice>'
+             f'<mc:Fallback>'
+             f'<p:transition xmlns:p="{P}" spd="slow"><p:fade/></p:transition>'
+             f'</mc:Fallback></mc:AlternateContent>')
+    prs = Presentation(pptx_path)
+    for i, slide in enumerate(prs.slides):
+        slide.element.append(etree.fromstring(fade if i == 0 else morph))
+    prs.save(pptx_path)
+    print("transitions: 1x fade + 4x morph(fallback fade)")
 
 if __name__ == "__main__":
     main()
