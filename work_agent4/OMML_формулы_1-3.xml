@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Готовые OMML-фрагменты для п. 6.3 (бывш. 4.3) МУК.
+  Вставка в Word: вкладка «Вставка → Уравнение → Рукописный ввод» НЕ требуется —
+  фрагмент m:oMath вставляется в word/document.xml вместо OLE-объектов
+  (oleObject1..3.bin / image1..3.wmf удаляются).
+  Альтернатива для ручного набора в редакторе формул Word (Linear format):
+    (1)  ИПЗ_ц=n/m×100
+    (2)  ИПЗ_я=(n×1000)/m
+    (3)  ИПЗ_л=(n×1000)/m
+-->
+<root xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
+
+  <!-- ================= ФОРМУЛА (1): ИПЗц = (n/m)·100, экз./100 г ================= -->
+  <m:oMathPara>
+    <m:oMath>
+      <m:sSub>
+        <m:e><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>ИПЗ</m:t></m:r></m:e>
+        <m:sub><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>ц</m:t></m:r></m:sub>
+      </m:sSub>
+      <m:r><m:t>=</m:t></m:r>
+      <m:f>
+        <m:num><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>n</m:t></m:r></m:num>
+        <m:den><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>m</m:t></m:r></m:den>
+      </m:f>
+      <m:r><m:t>×100</m:t></m:r>
+    </m:oMath>
+  </m:oMathPara>
+
+  <!-- ================= ФОРМУЛА (2): ИПЗя = (n·1000)/m, экз./кг ================= -->
+  <m:oMathPara>
+    <m:oMath>
+      <m:sSub>
+        <m:e><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>ИПЗ</m:t></m:r></m:e>
+        <m:sub><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>я</m:t></m:r></m:sub>
+      </m:sSub>
+      <m:r><m:t>=</m:t></m:r>
+      <m:f>
+        <m:num>
+          <m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>n</m:t></m:r>
+          <m:r><m:t>×1000</m:t></m:r>
+        </m:num>
+        <m:den><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>m</m:t></m:r></m:den>
+      </m:f>
+    </m:oMath>
+  </m:oMathPara>
+
+  <!-- ================= ФОРМУЛА (3): ИПЗл = (n·1000)/m, экз./кг ================= -->
+  <m:oMathPara>
+    <m:oMath>
+      <m:sSub>
+        <m:e><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>ИПЗ</m:t></m:r></m:e>
+        <m:sub><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>л</m:t></m:r></m:sub>
+      </m:sSub>
+      <m:r><m:t>=</m:t></m:r>
+      <m:f>
+        <m:num>
+          <m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>n</m:t></m:r>
+          <m:r><m:t>×1000</m:t></m:r>
+        </m:num>
+        <m:den><m:r><m:rPr><m:sty m:val="i"/></m:rPr><m:t>m</m:t></m:r></m:den>
+      </m:f>
+    </m:oMath>
+  </m:oMathPara>
+
+</root>
